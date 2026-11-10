@@ -216,3 +216,51 @@ html{scroll-padding-top:110px}
   .mobile-toggle{min-width:42px}
 }
 @media(prefers-reduced-motion:reduce){.nav-link{transition:none}html{scroll-behavior:auto}}
+
+
+/* Perfil profesional del especialista */
+.doctor-profile-hero{padding-top:82px;padding-bottom:82px}
+.doctor-profile-top{grid-template-columns:1.1fr .9fr;gap:8%}
+.doctor-profile-top h1{font-size:clamp(2.55rem,4.8vw,5rem);line-height:1.12}
+.doctor-profile h1 em,.doctor-profile h2 em{font-family:Georgia,serif;font-weight:400;color:var(--forest)}
+.doctor-lead{font-size:1.1rem;color:var(--muted);max-width:580px}
+.doctor-certification{display:flex;align-items:center;gap:16px;background:#edf6ff;border:1px solid #d4e8f8;border-radius:12px;padding:18px 20px;margin:24px 0 30px;max-width:530px}
+.doctor-cert-icon{width:40px;height:40px;background:#0261BA;color:#fff;border-radius:50%;display:grid;place-items:center;font-size:1.2rem;flex:none}
+.doctor-certification strong,.doctor-certification small{display:block}
+.doctor-certification strong{font-size:1.06rem;color:var(--forest)}
+.doctor-certification small{color:var(--muted);margin-top:5px}
+.doctor-profile .doctor-bio-photo{border:0;min-height:420px;max-height:610px;background:#f5f8fc}
+.doctor-profile .doctor-bio-photo img{object-fit:cover;object-position:center top;max-height:none}
+.doctor-detail-section{scroll-margin-top:105px}
+.doctor-timeline{border-top:1px solid var(--border)}
+.doctor-timeline article,.doctor-publications article{display:grid;grid-template-columns:minmax(145px,.28fr) 1fr;gap:24px;padding:28px 0;border-bottom:1px solid var(--border)}
+.doctor-timeline h3,.doctor-publications h3{font-size:1.28rem;color:var(--ink);letter-spacing:-.025em}
+.doctor-timeline p,.doctor-publications p{margin:8px 0 0;color:var(--muted)}
+.doctor-period,.doctor-publications article>span{color:var(--forest);font-weight:800;font-size:.9rem}
+.doctor-feature{display:grid;grid-template-columns:.88fr 1.12fr;gap:28px}
+.doctor-feature>div,.doctor-research>div{border:1px solid var(--border);background:#fff;padding:32px;border-radius:10px}
+.doctor-feature>div:first-child{background:#f1f7fe}
+.doctor-feature h3,.doctor-research h3{font-size:1.35rem;margin:9px 0}
+.doctor-feature p,.doctor-research p{color:var(--muted)}
+.doctor-feature-year{display:block;font-family:Manrope,sans-serif;font-weight:800;color:var(--forest);font-size:3.5rem;letter-spacing:-.06em}
+.doctor-memberships{padding-left:20px;margin:15px 0 0;color:var(--ink);line-height:1.7}
+.doctor-memberships li+li{margin-top:10px}
+.doctor-research{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.doctor-topic-list{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.doctor-topic-list span{background:#f0f6fc;color:#24537c;border:1px solid #d8e7f3;padding:10px 14px;border-radius:6px;font-size:.88rem;font-weight:700}
+.doctor-languages-inner{display:flex;align-items:center;justify-content:space-between;gap:35px}
+.doctor-languages h2{margin-bottom:0}
+.doctor-profile .closing-panel{padding:58px 30px}
+@media(max-width:800px){
+ .doctor-profile-top,.doctor-feature,.doctor-research{grid-template-columns:1fr}
+ .doctor-profile-top .doctor-bio-photo{max-width:540px;width:100%}
+ .doctor-languages-inner{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+ .doctor-profile-hero{padding-top:48px;padding-bottom:55px}
+ .doctor-profile-top h1{font-size:clamp(2.4rem,10vw,3.5rem)}
+ .doctor-timeline article,.doctor-publications article{grid-template-columns:1fr;gap:9px;padding:23px 0}
+ .doctor-feature>div,.doctor-research>div{padding:24px}
+ .doctor-certification{padding:16px}
+ .doctor-profile .doctor-bio-photo{min-height:300px}
+}
