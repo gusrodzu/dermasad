@@ -1,0 +1,16 @@
+# Keep camera originals and local files out of future commits
+*.ARW
+*.arw
+*.RAW
+*.raw
+*.DNG
+*.dng
+*.mov
+*.MOV
+*.zip
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+Thumbs.db
