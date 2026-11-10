@@ -1,0 +1,19 @@
+# Archivos originales / pesados
+*.ARW
+*.arw
+*.RAW
+*.raw
+*.CR2
+*.NEF
+*.DNG
+*.mov
+*.MOV
+
+# Archivos locales
+*.zip
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+Thumbs.db
