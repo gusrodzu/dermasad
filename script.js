@@ -57,7 +57,7 @@ function header(path){
   const isCity=validSede(path.slice(1));
   const treatmentLink=selected?'/'+selected+'#tratamientos':'/#sedes';
   const appointmentLink=selected?'/'+selected+'#agenda':'/#sedes';
-  const activeLink=(target)=>path===target||target.startsWith(path+'#')?' is-active':'';
+  const activeLink=(target)=>path===target?' is-active':'';
   const navItem=(target,title)=>link(target,title,'nav-link'+activeLink(target));
   return `<div class="topline">Atención dermatológica · Monterrey y Playa del Carmen</div>
   <header class="header" id="site-header"><div class="container nav">
