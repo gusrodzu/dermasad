@@ -5,4 +5,4 @@ deployment:
     - /bin/mkdir -p "$DEPLOYPATH"
     - /bin/mkdir -p "$DEPLOYPATH/assets"
     - /bin/cp index.html styles.css script.js "$DEPLOYPATH"
-    - /bin/cp -R assets/. "$DEPLOYPATH/assets/"
+    - /usr/bin/find assets -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.svg' \) -exec /bin/cp '{}' "$DEPLOYPATH/assets/" \;
