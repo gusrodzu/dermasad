@@ -52,7 +52,42 @@ function link(path,label,cls=''){
   const href=path.startsWith('/')?'#'+path:path;
   return `<a class="${cls}" href="${href}" data-link>${label}</a>`;
 }
-function header(path){const selected=currentSede(path);return `<div class="topline">Atención dermatológica · Monterrey y Playa del Carmen</div><header class="header"><div class="container nav">${link('/','<img class="logo-image" src="./assets/logo-dermassad.png" alt="Clínica Dermassad">','logo')}<nav id="navlinks" class="navlinks">${link('/#atiendo','Qué atiende')}${link('/el-doctor','El doctor')}${link('/#sedes','Sedes')}${link('/#proceso','La consulta')}</nav><div class="navend"><select class="select" aria-label="Seleccionar sede" id="location-picker"><option value="" disabled ${selected?'':'selected'}>Seleccionar sede</option><option value="monterrey" ${selected==='monterrey'?'selected':''}>Monterrey</option><option value="playa-del-carmen" ${selected==='playa-del-carmen'?'selected':''}>Playa del Carmen</option></select><button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" id="mobile-toggle">☰</button></div></div></header>`}
+function header(path){
+  const selected=currentSede(path);
+  const isCity=validSede(path.slice(1));
+  const treatmentLink=selected?'/'+selected+'#tratamientos':'/#sedes';
+  const appointmentLink=selected?'/'+selected+'#agenda':'/#sedes';
+  const activeLink=(target)=>path===target?' is-active':'';
+  const navItem=(target,title)=>link(target,title,'nav-link'+activeLink(target));
+  return `<div class="topline">Atención dermatológica · Monterrey y Playa del Carmen</div>
+  <header class="header" id="site-header"><div class="container nav">
+    ${link('/','<img class="logo-image" src="./assets/logo-dermassad.png" alt="Clínica Dermassad">','logo')}
+    <nav id="navlinks" class="navlinks" aria-label="Navegación principal">
+      ${navItem('/','Inicio')}
+      ${navItem('/#atiendo','Qué atendemos')}
+      ${navItem('/el-doctor','El especialista')}
+      ${navItem('/#sedes','Sedes')}
+      ${navItem(treatmentLink,'Tratamientos')}
+      <div class="nav-mobile-group" aria-label="Explorar sedes"><span>Elige una sede</span>
+        ${link('/monterrey','Monterrey · San Pedro','nav-mobile-city'+(path==='/monterrey'?' is-active':''))}
+        ${link('/playa-del-carmen','Playa del Carmen','nav-mobile-city'+(path==='/playa-del-carmen'?' is-active':''))}
+      </div>
+      ${link(appointmentLink,'Solicitar cita ↗','btn nav-mobile-cta')}
+    </nav>
+    <div class="navend">
+      <label class="visually-hidden" for="location-picker">Sede de atención</label>
+      <select class="select" aria-label="Seleccionar sede" id="location-picker">
+        <option value="" disabled ${selected?'':'selected'}>Seleccionar sede</option>
+        <option value="monterrey" ${selected==='monterrey'?'selected':''}>Monterrey</option>
+        <option value="playa-del-carmen" ${selected==='playa-del-carmen'?'selected':''}>Playa del Carmen</option>
+      </select>
+      ${link(appointmentLink,'Solicitar cita','btn nav-cta')}
+      <button class="mobile-toggle" type="button" aria-label="Abrir menú de navegación" aria-controls="navlinks" aria-expanded="false" id="mobile-toggle"><span class="menu-icon" aria-hidden="true">☰</span><span class="menu-label">Menú</span></button>
+    </div>
+  </div></header>
+  <button class="mobile-nav-backdrop" id="mobile-nav-backdrop" type="button" tabindex="-1" aria-label="Cerrar navegación" hidden></button>`;
+}
+
 // WhatsApp oficial por sede. El número se selecciona con la ruta o la sede recordada.
 const whatsappIcon=()=>`<svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.52 3.49A11.86 11.86 0 0 0 12.08 0C5.52 0 .17 5.34.16 11.91c0 2.1.55 4.15 1.6 5.97L0 24l6.29-1.65a11.89 11.89 0 0 0 5.78 1.47h.01c6.56 0 11.9-5.34 11.92-11.91a11.82 11.82 0 0 0-3.48-8.42ZM12.08 21.8a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.87 9.87 0 0 1-1.52-5.25c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.12 1.03 6.99 2.9a9.81 9.81 0 0 1 2.9 7c-.01 5.45-4.45 9.88-9.9 9.88Zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.46-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.14-.13.3-.34.45-.51.15-.17.2-.3.3-.49.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.66-.51h-.57c-.2 0-.52.08-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.11 3.22 5.11 4.52.71.3 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>`;
 function whatsappUrl(city){
@@ -102,14 +137,17 @@ function agenda(city){return `<div class="agenda"><span class="eyebrow">Explora 
 function cityPage(city){let l=SETTINGS.locations[city],isP=city==='playa-del-carmen',isM=city==='monterrey';let ordered=isP?[concerns[3],concerns[0],concerns[4],concerns[1],concerns[2],concerns[5]]:[concerns[5],concerns[0],concerns[1],concerns[2],concerns[3],concerns[4]];const cityHeroVisual=isM?`<div class="hero-visual branch-hero"><div class="branch-photo-card"><img class="branch-photo" src="./assets/sucursal-monterrey.jpg" alt="Sucursal Dermassad Monterrey"><div class="photo-caption">Sucursal Dermassad Monterrey</div></div></div>`:`<div class="hero-visual playa-doctor-hero"><img class="playa-doctor-image" src="./assets/doctor-home.png" alt="Dr. Carlos Javier Assad Morell · Clínica Dermassad" loading="eager" decoding="async"></div>`;const cityMapVisual=isM?`<div class="branch-location-card"><img class="branch-photo location-photo" src="./assets/sucursal-monterrey.jpg" alt="Entrada de la sucursal Dermassad Monterrey"></div>`:`<div class="map-placeholder">⌖<br>Ubicación de ${l.title}<br>Consultar con la sede</div>`;return `<main><section class="hero"><div class="container hero-grid"><div class="hero-copy"><span class="eyebrow">Dermassad · Sede ${l.title}</span><h1>Dermatología en ${l.title}.</h1><p>Atención dermatológica con el ${SETTINGS.doctor}. Selecciona el motivo de tu visita y conoce las alternativas para solicitar una cita.</p><div class="hero-actions">${link('#rutas','Quiero agendar ↗','btn')}${link('#servicios','Explorar servicios','btn outline')}${waContactLink(city,'WhatsApp de la sede')}</div><div class="small-line">${safe(l.address,'Consulta ubicación con la sede')}${l.phone?' · '+l.phone:''}</div>${isP?`<a class="branch-gallery-link" href="#instalaciones">Ver instalaciones de Playa del Carmen ↓</a>`:isM?`<a class="branch-gallery-link" href="#instalaciones">Ver instalaciones de San Pedro ↓</a>`:''}</div>${cityHeroVisual}</div></section>${isP?`<section class="section white playa-gallery-section" id="instalaciones"><div class="container"><div class="section-head playa-gallery-heading"><div><span class="eyebrow">Clínica Dermassad · Playa del Carmen</span><h2>Conoce nuestras <em>instalaciones.</em></h2><p>Recepción, sala de espera y espacios de atención de nuestra sede de Playa del Carmen, Quintana Roo.</p></div></div><div class="playa-photo-grid"><figure><img src="./assets/galeria-espera.webp" alt="Sala de espera en Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Sala de espera</figcaption></figure><figure><img src="./assets/galeria-recepcion.webp" alt="Recepción de Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Recepción</figcaption></figure><figure><img src="./assets/galeria-consultorio.webp" alt="Consultorio de Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Consultorio</figcaption></figure><figure><img src="./assets/galeria-consulta.webp" alt="Área de consulta en Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Área de consulta</figcaption></figure><figure><img src="./assets/galeria-procedimientos.webp" alt="Sala de procedimientos en Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Sala de procedimientos</figcaption></figure><figure><img src="./assets/galeria-acceso.webp" alt="Acceso interior a las instalaciones de Clínica Dermassad Playa del Carmen" loading="lazy" decoding="async" width="1600" height="1201"><figcaption>Acceso interior</figcaption></figure></div><p class="fineprint playa-gallery-note">Fotografías de la sede Playa del Carmen.</p></div></section>`:''}${isM?`<section class="section white playa-gallery-section monterrey-gallery-section" id="instalaciones"><div class="container"><div class="section-head playa-gallery-heading"><div><span class="eyebrow">Clínica Dermassad · Monterrey / San Pedro</span><h2>Conoce nuestras <em>instalaciones.</em></h2><p>Recorre la recepción, la sala de espera y los espacios de atención de nuestra sede en San Pedro Garza García, Nuevo León.</p></div></div><div class="playa-photo-grid"><figure><img src="./assets/monterrey-recepcion.webp" alt="Recepción de Clínica Dermassad, sede San Pedro Garza García, Monterrey" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Recepción</figcaption></figure><figure><img src="./assets/monterrey-sala-espera.webp" alt="Sala de espera de Dermassad Monterrey / San Pedro" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Sala de espera</figcaption></figure><figure><img src="./assets/monterrey-acceso-interior.webp" alt="Acceso a Clínica Dermassad en Monterrey / San Pedro" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Acceso interior</figcaption></figure><figure><img src="./assets/monterrey-consultorio.webp" alt="Consultorio de Clínica Dermassad, sede San Pedro Garza García, Monterrey" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Consultorio</figcaption></figure><figure><img src="./assets/monterrey-sala-atencion.webp" alt="Sala de atención de Clínica Dermassad, sede San Pedro Garza García, Monterrey" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Sala de atención</figcaption></figure><figure><img src="./assets/monterrey-sala-procedimientos.webp" alt="Sala clínica de Dermassad, sede Monterrey / San Pedro" loading="lazy" decoding="async" width="1600" height="1200"><figcaption>Sala de procedimientos</figcaption></figure></div><p class="fineprint playa-gallery-note">Fotografías de la sede Monterrey (San Pedro Garza García).</p></div></section>`:''}<section class="section white anchor-target" id="rutas"><div class="container"><div class="section-head center"><span class="eyebrow">Elige cómo comenzar</span><h2>¿En qué podemos ayudarte?</h2><p>Dos formas de iniciar, según lo que necesites.</p></div><div class="grid cols-2"><article class="route-card consult"><span class="pill">Ruta de valoración</span><h3 style="font-size:1.7rem">Necesito que revisen mi piel.</h3><p>Manchas, acné, cabello, lunares, enfermedades de la piel o dudas sobre opciones antiedad.</p><a href="#agenda" class="btn" data-care-route="valoracion">Solicitar valoración ↗</a></article><article class="route-card procedure"><span class="pill">Ruta de procedimientos</span><h3 style="font-size:1.7rem">Ya sé qué tratamiento me interesa.</h3><p>Consulta los procedimientos de esta sede y solicita orientación para agendar.</p><a href="#tratamientos" class="btn" data-care-route="tratamiento">Elegir tratamiento ↗</a></article></div><div class="feature-band"><strong>Primera visita:</strong> la indicación de un procedimiento requiere revisar el caso y las condiciones de atención.</div></div></section><section class="section soft anchor-target" id="servicios"><div class="container"><div class="section-head"><span class="eyebrow">Motivos de consulta</span><h2>Atención que comienza escuchando tu piel.</h2><p>Cada caso requiere valoración para definir el abordaje adecuado.</p></div>${concernCards(ordered)}<p class="notice">Referencia de valoración desde $1,500 MXN. Tarifa orientativa sujeta a confirmación por sede.</p></div></section>${isP?`<section class="section white"><div class="container split"><div><span class="eyebrow">Revisión preventiva</span><h2>Revisión de lunares y exposición solar.</h2><p class="muted">La revisión dermatológica puede formar parte de un cuidado preventivo. Consulta las opciones de valoración.</p></div>${placeholder('Imagen ilustrativa de atención')}</div></section>`:''}<section class="section white anchor-target" id="tratamientos"><div class="container"><div class="section-head"><span class="eyebrow">Opciones de procedimiento</span><h2>Tratamientos disponibles para evaluar.</h2><p>Consulta las opciones de atención. Los importes son orientativos y la disponibilidad depende de la sede y la valoración correspondiente.</p></div>${treatmentCards(city)}</div></section><section class="section soft anchor-target" id="agenda"><div class="container split"><div><span class="eyebrow">Planea tu visita</span><h2>Tu siguiente paso comienza aquí.</h2><p class="muted">Elige el motivo y una fecha preferida para preparar tu solicitud de atención.</p><div class="pending">La disponibilidad debe consultarse directamente con la sede.</div></div>${agenda(city)}</div></section><section class="section white"><div class="container split">${isP?`<div class="playa-doctor-secondary"><img src="./assets/doctor-home.png" alt="Dr. Carlos Javier Assad Morell · Clínica Dermassad" loading="lazy" decoding="async"></div>`:`<div class="doctor-bio-photo"><img src="./assets/retrato-doctor.webp" alt="Retrato profesional del Dr. Carlos Javier Assad Morell" loading="lazy" decoding="async"></div>`}<div><span class="eyebrow">Acerca del especialista</span><h2>Conoce al ${SETTINGS.doctor}.</h2><p class="muted">Conoce la trayectoria del especialista y su enfoque de atención dermatológica.</p>${link('/el-doctor','Ver trayectoria profesional ↗','btn outline')}</div></div></section><section class="section soft"><div class="container split"><div><span class="eyebrow">Preguntas frecuentes</span><h2>Resolvemos tus dudas.</h2><p class="muted">Información general sobre el proceso de atención en ${l.title}.</p></div>${faq(city)}</div></section><section class="section white"><div class="container split">${cityMapVisual}<div><span class="eyebrow">Visítanos</span><h2>Dermassad ${l.title}.</h2><p><strong>Dirección</strong><br>${safe(l.address,'Consulta la dirección con la sede')}</p><p><strong>Teléfono</strong><br>${safe(l.phone,'Solicita los medios de contacto a la clínica')}</p><p><strong>Días de atención</strong><br>${safe(l.doctorDays,'Consultar con la sede')}</p>${waContactLink(city,'Consultar por WhatsApp')}<div class="pending">Antes de visitarnos, confirma directamente los horarios y la ubicación de la sede.</div></div></div></section></main>`}
 function doctorPage(){return `<main><section class="section white"><div class="container split"><div><span class="eyebrow">Dermatología y trayectoria</span><h1>${SETTINGS.doctor}</h1><p class="muted">Conoce la formación y experiencia detrás del enfoque de atención de Dermassad.</p>${link('/#sedes','Elegir sede para valoración ↗','btn')}<p class="fineprint">${licenseDetails()}</p></div><div class="doctor-bio-photo"><img src="./assets/retrato-doctor.webp" alt="Retrato del Dr. Carlos Javier Assad Morell en Clínica Dermassad" loading="eager" decoding="async"></div></div></section><section class="section soft"><div class="container"><div class="section-head"><span class="eyebrow">Trayectoria</span><h2>Acerca de la práctica dermatológica.</h2><p>La atención parte de escuchar tus necesidades y evaluar cada caso de manera individual.</p></div><div class="grid cols-3"><div class="card"><h3>Certificación</h3><p>Solicita información sobre las credenciales profesionales durante tu visita.</p></div><div class="card"><h3>Formación internacional</h3><p>Conoce más acerca de la trayectoria del especialista a través de la clínica.</p></div><div class="card"><h3>Actividad profesional</h3><p>El equipo puede orientar sobre los servicios disponibles.</p></div></div></div></section></main>`}
 function privacy(){return `<main><div class="container legal"><span class="eyebrow">Protección de datos personales</span><h1>Aviso de privacidad</h1><div class="pending">El aviso de privacidad completo estará disponible aquí cuando la clínica habilite la recepción de datos mediante sus canales digitales.</div><p>El formulario de esta vista no registra ni transmite información.</p>${link('/','Volver al inicio ↗','btn outline')}</div></main>`}
+let navigationEvents=new AbortController();
 function bind(){
+  navigationEvents.abort();
+  navigationEvents=new AbortController();
   document.querySelectorAll('a[data-link]').forEach(a=>a.addEventListener('click',e=>{
     const dest=a.getAttribute('href')||'';
     if(dest.startsWith('#/') ){
       e.preventDefault();
       const [path,section]=dest.slice(1).split('#');
       go(path);
-      if(section)setTimeout(()=>document.getElementById(section)?.scrollIntoView({behavior:'smooth'}),60);
+      if(section)setTimeout(()=>document.getElementById(section)?.scrollIntoView({behavior:'smooth',block:'start'}),60);
       return;
     }
     // Anchors within the city pages (rutas, tratamientos, agenda, etc.).
@@ -124,11 +162,40 @@ function bind(){
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
   }));
-  document.getElementById('mobile-toggle')?.addEventListener('click',e=>{
-    const nav=document.getElementById('navlinks');
-    nav.classList.toggle('open');
-    e.currentTarget.setAttribute('aria-expanded',nav.classList.contains('open'));
+  const mobileToggle=document.getElementById('mobile-toggle');
+  const mobileNav=document.getElementById('navlinks');
+  const mobileBackdrop=document.getElementById('mobile-nav-backdrop');
+  const closeMobileMenu=(restoreFocus=false)=>{
+    if(!mobileNav||!mobileToggle)return;
+    mobileNav.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded','false');
+    mobileToggle.setAttribute('aria-label','Abrir menú de navegación');
+    mobileToggle.querySelector('.menu-icon').textContent='☰';
+    mobileToggle.querySelector('.menu-label').textContent='Menú';
+    if(mobileBackdrop)mobileBackdrop.hidden=true;
+    document.body.classList.remove('nav-open');
+    if(restoreFocus)mobileToggle.focus();
+  };
+  mobileToggle?.addEventListener('click',()=>{
+    const opened=!mobileNav.classList.contains('open');
+    if(!opened){closeMobileMenu();return;}
+    mobileNav.classList.add('open');
+    mobileToggle.setAttribute('aria-expanded','true');
+    mobileToggle.setAttribute('aria-label','Cerrar menú de navegación');
+    mobileToggle.querySelector('.menu-icon').textContent='×';
+    mobileToggle.querySelector('.menu-label').textContent='Cerrar';
+    if(mobileBackdrop)mobileBackdrop.hidden=false;
+    document.body.classList.add('nav-open');
+    mobileNav.querySelector('a')?.focus();
   });
+  mobileBackdrop?.addEventListener('click',()=>closeMobileMenu(true));
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&mobileNav?.classList.contains('open'))closeMobileMenu(true);
+  },{signal:navigationEvents.signal});
+  mobileNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeMobileMenu()));
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth>990&&mobileNav?.classList.contains('open'))closeMobileMenu();
+  },{signal:navigationEvents.signal});
   document.getElementById('location-picker')?.addEventListener('change',e=>{if(validSede(e.target.value)){saveSede(e.target.value);go('/'+e.target.value)}});
   document.querySelectorAll('[data-treatment]').forEach(a=>a.addEventListener('click',()=>{
     const chosen=a.dataset.treatment;const selector=document.getElementById('a-service');
