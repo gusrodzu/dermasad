@@ -269,3 +269,42 @@ html{scroll-padding-top:110px}
 .doctor-source-link{display:inline-flex;align-items:center;color:#0261BA;font-weight:700;font-size:.88rem;line-height:1.5;text-decoration:underline;text-underline-offset:4px;margin-top:10px}
 .doctor-source-link:hover{color:#064a88}
 .doctor-source-link:focus-visible{outline:3px solid #0261BA;outline-offset:3px}
+
+
+/* Barrido UX: jerarquía, lectura y accesos de navegación */
+.branch-jump-nav,.doctor-jump-nav{background:#fff;border-top:1px solid #e2eaf1;border-bottom:1px solid #e2eaf1}
+.branch-jump-links,.doctor-jump-links{display:flex;align-items:center;gap:clamp(14px,2.6vw,38px);min-height:66px}
+.branch-jump-links>span{margin-right:auto;color:#6a7b8a;font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.12em}
+.branch-jump-links a,.doctor-jump-links a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 0;color:#315573;font-weight:700;font-size:.88rem;white-space:nowrap;border-bottom:2px solid transparent}
+.branch-jump-links a:hover,.doctor-jump-links a:hover{border-color:#0261BA;color:#0261BA}
+.branch-jump-links a:focus-visible,.doctor-jump-links a:focus-visible{outline:3px solid #0261BA;outline-offset:3px}
+.doctor-jump-links{justify-content:center}
+.contact-options{border:1px solid #dbe8f2;background:#fff;padding:clamp(24px,3vw,38px);border-radius:12px;box-shadow:0 12px 36px rgba(2,97,186,.06)}
+.contact-options h3{font-size:clamp(1.45rem,2.4vw,1.85rem);line-height:1.25;letter-spacing:-.035em;margin:13px 0}
+.contact-options p{color:var(--muted)}
+.contact-options .btn{width:100%;margin:15px 0 4px}
+.contact-options .fineprint{font-size:.78rem;line-height:1.65}
+.section-head{max-width:840px}
+.section-head h2{max-width:800px}
+.route-card{gap:8px}
+.route-card h3{line-height:1.26}
+.card.service-card{gap:8px}
+.service-request{width:100%;margin-top:16px;text-align:center}
+.photo-gallery figcaption,.playa-photo-grid figcaption{font-size:.81rem}
+#formacion,#certificacion,#investigacion,#publicaciones,#instalaciones,#agenda,#rutas,#tratamientos,#servicios{scroll-margin-top:104px}
+@media(max-width:990px){
+ .branch-jump-links,.doctor-jump-links{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;gap:24px}
+ .branch-jump-links a,.doctor-jump-links a{scroll-snap-align:start}
+ .branch-jump-links>span{display:none}
+}
+@media(max-width:680px){
+ .section{padding-top:58px;padding-bottom:58px}
+ .section-head{margin-bottom:28px}
+ .branch-jump-links,.doctor-jump-links{min-height:58px;gap:20px}
+ .branch-jump-links a,.doctor-jump-links a{min-height:50px}
+ .route-card{min-height:auto;padding:25px}
+ .contact-options{padding:23px}
+ .home-process .process-grid{gap:13px}
+ .process-grid article{min-height:auto}
+ .doctor-profile .doctor-publications h3{overflow-wrap:anywhere}
+}
