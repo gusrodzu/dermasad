@@ -1,26 +1,16 @@
-<<<<<<< HEAD
-# Archivos originales / pesados
-=======
-# Keep camera originals and local files out of future commits
->>>>>>> ff04c0156f35a6258be69d35233854e7bc3a0059
+# Originales fotográficos y archivos pesados
 *.ARW
 *.arw
 *.RAW
 *.raw
-<<<<<<< HEAD
 *.CR2
 *.NEF
-*.DNG
-*.mov
-*.MOV
-
-# Archivos locales
-=======
 *.DNG
 *.dng
 *.mov
 *.MOV
->>>>>>> ff04c0156f35a6258be69d35233854e7bc3a0059
+
+# Archivos locales y secretos
 *.zip
 .env
 .env.*
