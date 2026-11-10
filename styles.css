@@ -264,3 +264,8 @@ html{scroll-padding-top:110px}
  .doctor-certification{padding:16px}
  .doctor-profile .doctor-bio-photo{min-height:300px}
 }
+
+/* Enlaces a fuentes de certificación y publicaciones */
+.doctor-source-link{display:inline-flex;align-items:center;color:#0261BA;font-weight:700;font-size:.88rem;line-height:1.5;text-decoration:underline;text-underline-offset:4px;margin-top:10px}
+.doctor-source-link:hover{color:#064a88}
+.doctor-source-link:focus-visible{outline:3px solid #0261BA;outline-offset:3px}
