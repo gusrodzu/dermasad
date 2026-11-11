@@ -200,6 +200,7 @@ function bind(){
     mobileToggle.querySelector('.menu-label').textContent='Menú';
     if(mobileBackdrop)mobileBackdrop.hidden=true;
     document.body.classList.remove('nav-open');
+    document.querySelectorAll('main, footer, .wa-floating').forEach(el=>{el.inert=false;});
     if(restoreFocus)mobileToggle.focus();
   };
   mobileToggle?.addEventListener('click',()=>{
@@ -212,11 +213,20 @@ function bind(){
     mobileToggle.querySelector('.menu-label').textContent='Cerrar';
     if(mobileBackdrop)mobileBackdrop.hidden=false;
     document.body.classList.add('nav-open');
+    document.querySelectorAll('main, footer, .wa-floating').forEach(el=>{el.inert=true;});
     mobileNav.querySelector('a')?.focus();
   });
   mobileBackdrop?.addEventListener('click',()=>closeMobileMenu(true));
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&mobileNav?.classList.contains('open'))closeMobileMenu(true);
+    if(!mobileNav?.classList.contains('open'))return;
+    if(e.key==='Escape'){e.preventDefault();closeMobileMenu(true);return;}
+    if(e.key==='Tab'){
+      const focusable=[...mobileNav.querySelectorAll('a[href],button:not([disabled])')];
+      if(!focusable.length)return;
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
   },{signal:navigationEvents.signal});
   mobileNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeMobileMenu()));
   window.addEventListener('resize',()=>{
