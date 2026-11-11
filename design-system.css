@@ -251,3 +251,14 @@ button:disabled,.btn[aria-disabled="true"]{opacity:.52;cursor:not-allowed}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+/* Accesibilidad de la navegación y contexto de la página */
+.skip-link{position:fixed;top:-120px;left:16px;z-index:200;background:#fff;color:var(--ui-primary);border:2px solid var(--ui-primary);border-radius:8px;padding:12px 18px;font:800 15px 'DM Sans',sans-serif;box-shadow:var(--ui-shadow)}
+.skip-link:focus{top:12px;outline:3px solid #0B5A9D;outline-offset:3px}
+.breadcrumbs{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--ui-muted);font-size:.83rem;font-weight:700;margin-bottom:20px}
+.breadcrumbs a{color:var(--ui-primary);text-decoration:underline;text-underline-offset:4px}
+.breadcrumbs span:last-child{color:var(--ui-muted)}
+.home-hero .hero-trust{display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.home-hero .hero-trust .trust-dot{flex:0 0 auto;margin-top:8px}
+.branch-hero .breadcrumbs{margin-bottom:24px}
+@media(max-width:680px){.breadcrumbs{margin-bottom:15px}.hero .hero-copy .breadcrumbs{margin-bottom:16px}.skip-link{left:8px;right:8px;text-align:center}}
