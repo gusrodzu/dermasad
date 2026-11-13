@@ -58,4 +58,17 @@ assert.ok(html.includes('design-system.css'),'CSS activo en HTML');
 assert.ok(deployment.includes('design-system.css'),'CSS desplegado por cPanel');
 assert.ok(deployment.includes('dermasad-preview'),'Destino de pruebas');
 assert.equal((css.match(/{/g)||[]).length,(css.match(/}/g)||[]).length,'CSS desbalanceado');
+// UI Bundle 04: header adaptable, composición y contenido veraz
+assert.ok(css.includes('@media(max-width:1199px)'), 'Breakpoint tablet del encabezado');
+assert.ok(css.includes('.header .navlinks.open'), 'Panel móvil desplegable');
+assert.ok(css.includes('.playa-photo-grid figure:first-child'), 'Galería editorial con imagen destacada');
+assert.ok(css.includes('.branch-hero-actions'), 'Acciones simplificadas en sede');
+assert.ok(source.includes('window.innerWidth>1199'), 'Breakpoints sincronizados entre JS/CSS');
+assert.ok(views.monterrey.includes('monterrey-acceso-interior.webp'), 'Ubicación Monterrey con foto real');
+assert.ok(views.playa.includes('galeria-acceso.webp'), 'Ubicación Playa del Carmen con foto real');
+assert.ok(!views.playa.includes('class="map-placeholder"'), 'Sin marcador de ubicación ficticio');
+assert.ok(!views.monterrey.includes('Referencia desde'), 'No publicar precios orientativos sin validar');
+assert.ok(views.monterrey.includes('Precio y disponibilidad a confirmar con la sede'), 'Mensaje de precio claro');
+assert.ok(views.playa.includes('Consultar por WhatsApp'), 'Contacto directo en hero');
+
 console.log('✓ Dermassad smoke tests: 5 vistas, enlaces, assets, WhatsApp, modal y staging');
