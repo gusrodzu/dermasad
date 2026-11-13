@@ -59,3 +59,18 @@ El recorrido principal de cualquier paciente es: **conocer al especialista → e
 - `.cpanel.yml`: despliegue manual en HostGator hacia `public_html/dermasad-preview/`.
 
 **No desplegar en producción sin aprobar el dominio definitivo y su carpeta raíz.**
+
+## UI Bundle 03 — 13 de noviembre de 2026
+
+- Las tarjetas de motivos de consulta en Inicio enlazan a la selección de sede.
+- Cada motivo de consulta y tratamiento en la página de una sede abre el WhatsApp correcto con un mensaje específico.
+- Las fotografías de instalaciones en Monterrey y Playa del Carmen admiten ampliación en un diálogo nativo con controles Anterior/Siguiente y teclado (Escape para cerrar, flechas para recorrer).
+- Se corrigieron preguntas frecuentes que remitían a un formulario de citas ya retirado.
+- El pie de página incluye un control para volver arriba.
+- El desplazamiento hacia secciones tiene margen para los encabezados fijos en móvil y escritorio.
+- Se añadieron verificaciones automatizadas en `tests/site-smoke.cjs` y `.github/workflows/site-qa.yml`, sin alterar el despliegue manual de cPanel.
+
+### Validaciones pendientes
+- QA visual real en navegadores (móvil y escritorio), incluida la ampliación fotográfica.
+- Confirmar que el despliegue en cPanel está apuntando a `public_html/dermasad-preview`.
+- No lanzar a producción sin verificar precios, cédulas pendientes, horarios y aviso de privacidad.
