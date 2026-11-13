@@ -1,0 +1,21 @@
+name: Dermassad · Static Site QA
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    name: Verificar navegacion y recursos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar sintaxis JavaScript
+        run: node --check script.js
+      - name: Revisar rutas, fotos y contacto por sede
+        run: node tests/site-smoke.cjs
