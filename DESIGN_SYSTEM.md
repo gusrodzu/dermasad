@@ -74,3 +74,20 @@ El recorrido principal de cualquier paciente es: **conocer al especialista → e
 - QA visual real en navegadores (móvil y escritorio), incluida la ampliación fotográfica.
 - Confirmar que el despliegue en cPanel está apuntando a `public_html/dermasad-preview`.
 - No lanzar a producción sin verificar precios, cédulas pendientes, horarios y aviso de privacidad.
+
+## UI Bundle 04 — 13 de noviembre de 2026
+
+### Refactor visual y responsive
+- Header con menú compacto en tablet (hasta 1199 px) y panel lateral de navegación, evitando enlaces comprimidos.
+- El logo, selector de sede y botón de menú se adaptan a pantallas estrechas; por debajo de 360 px la selección de sede permanece disponible dentro del menú.
+- Los hero de las sedes usan dos acciones claras: consultar por WhatsApp y explorar tratamientos.
+- Módulos de tratamiento, secciones informativas y bloque del especialista con una retícula más adaptable en desktop, tablet y móvil.
+- Galerías fotográficas con imagen protagonista y retícula de 3 columnas en escritorio, 2 en tablet/móvil. Conservar apertura en diálogo y la procedencia de las fotografías.
+- Reemplazado el mapa ilustrativo de Playa del Carmen y la fotografía repetida de Monterrey por fotografías reales de acceso de su respectiva sede.
+- Los importes estimados de tratamiento solo se muestran cuando `SETTINGS.priceValidated` es `true`; mientras tanto se invita a consultar el precio vigente.
+
+### Revisiones y límites
+- `node --check script.js` y `node tests/site-smoke.cjs` se ejecutan en GitHub Actions.
+- El smoke test abarca rutas, imágenes, WhatsApp, diálogo fotográfico, estilos cargados, contenido y breakpoints.
+- QA visual con capturas reales a 320/390/768/1024/1440 px: pendiente, una vez desplegado el commit en HostGator.
+- No se ha activado ningún despliegue automático ni se ha modificado el directorio raíz de producción.
