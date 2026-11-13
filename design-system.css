@@ -461,6 +461,7 @@ a.concern-item:hover h3{color:var(--ui-primary)}
   .home-doctor .doctor-photo-image{width:100%;max-width:100%}
   .playa-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:clamp(170px,27vw,260px);gap:16px}
   .playa-photo-grid figure:first-child{grid-column:span 2;grid-row:span 1}
+  .playa-photo-grid figure:last-child{grid-column:span 2}
   .doctor-profile .doctor-profile-top .doctor-bio-photo{width:min(100%,580px);max-width:580px}
 }
 @media(max-width:760px){
