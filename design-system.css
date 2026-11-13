@@ -262,3 +262,54 @@ button:disabled,.btn[aria-disabled="true"]{opacity:.52;cursor:not-allowed}
 .home-hero .hero-trust .trust-dot{flex:0 0 auto;margin-top:8px}
 .branch-hero .breadcrumbs{margin-bottom:24px}
 @media(max-width:680px){.breadcrumbs{margin-bottom:15px}.hero .hero-copy .breadcrumbs{margin-bottom:16px}.skip-link{left:8px;right:8px;text-align:center}}
+
+/* UI Bundle 03 · tarjetas con acción, galería accesible y navegación de página larga */
+.concern-item{color:var(--ui-text);text-decoration:none;cursor:pointer}
+a.concern-item:hover,a.concern-item:focus-visible{border-color:#83B6DA;box-shadow:0 12px 25px rgba(13,75,119,.11);transform:translateY(-2px)}
+a.concern-item:hover h3{color:var(--ui-primary)}
+.concern-card{display:flex;flex-direction:column;align-items:stretch;min-height:240px}
+.concern-card .concern-link{display:inline-flex;align-items:center;min-height:44px;width:max-content;max-width:100%;margin-top:auto;padding-block:10px;color:var(--ui-primary);font-size:.87rem;font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.concern-card .concern-link:hover{color:var(--ui-primary-hover)}
+.concern-card .concern-link:focus-visible{outline:3px solid var(--ui-focus);outline-offset:3px;border-radius:3px}
+.gallery-image-button{position:relative;display:block;width:100%;padding:0;border:0;background:#eef4f7;cursor:zoom-in;text-align:inherit;overflow:hidden}
+.gallery-image-button img{display:block;width:100%;height:auto;transition:transform .22s ease}
+.gallery-image-button:hover img{transform:scale(1.025)}
+.gallery-image-button:focus-visible{outline:4px solid var(--ui-focus);outline-offset:-4px}
+.gallery-image-button:focus-visible img{transform:scale(1.012)}
+.photo-dialog{width:min(1100px,calc(100vw - 32px));max-width:1100px;max-height:calc(100dvh - 24px);margin:auto;padding:0;border:0;border-radius:14px;box-shadow:0 32px 92px rgba(0,0,0,.45);background:#101e2a;color:#fff;overflow:hidden}
+.photo-dialog::backdrop{background:rgba(5,15,25,.88)}
+.photo-dialog-inner{display:flex;flex-direction:column;max-height:calc(100dvh - 24px)}
+.photo-dialog-head,.photo-dialog-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:none;padding:12px 18px}
+.photo-dialog-head{border-bottom:1px solid rgba(255,255,255,.16)}
+.photo-dialog-head span{color:#dfebf4;font-size:.85rem;font-variant-numeric:tabular-nums}
+.photo-dialog-head button,.photo-dialog-foot button{background:#20374a;border:1px solid #52708a;border-radius:8px;color:#fff;font:700 .875rem 'DM Sans',sans-serif;cursor:pointer;min-height:44px;padding:9px 15px}
+.photo-dialog-head button:hover,.photo-dialog-foot button:hover{background:#31536f}
+.photo-dialog-head button:focus-visible,.photo-dialog-foot button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.photo-dialog-image,.photo-dialog img{display:block;width:100%;max-height:calc(100dvh - 171px);height:auto;min-height:0;object-fit:contain;background:#101e2a}
+.photo-dialog-foot{border-top:1px solid rgba(255,255,255,.16)}
+.photo-dialog-foot strong{text-align:center;font-size:.91rem;line-height:1.35;font-weight:600}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.back-to-top{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 13px;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.45);border-radius:8px;font:700 .85rem 'DM Sans',sans-serif;cursor:pointer}
+.back-to-top:hover{border-color:#fff;background:rgba(255,255,255,.11)}
+.back-to-top:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#instalaciones,#rutas,#servicios,#tratamientos,#agenda,#formacion,#certificacion,#investigacion,#publicaciones{scroll-margin-top:166px}
+#atiendo,#sedes,#proceso{scroll-margin-top:106px}
+@media(max-width:990px){
+ #instalaciones,#rutas,#servicios,#tratamientos,#agenda,#formacion,#certificacion,#investigacion,#publicaciones{scroll-margin-top:142px}
+}
+@media(max-width:680px){
+ .concern-card{min-height:0}
+ .photo-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:10px}
+ .photo-dialog-inner{max-height:calc(100dvh - 16px)}
+ .photo-dialog-head,.photo-dialog-foot{padding:9px 12px;gap:7px}
+ .photo-dialog img{max-height:calc(100dvh - 196px)}
+ .photo-dialog-foot{display:grid;grid-template-columns:1fr 1fr}
+ .photo-dialog-foot strong{grid-column:1/-1;grid-row:1;min-height:20px}
+ .photo-dialog-foot button{padding:9px 6px;min-width:0}
+ .foot-bottom{flex-wrap:wrap;justify-content:flex-start}
+ .back-to-top{margin-left:auto}
+ #instalaciones,#rutas,#servicios,#tratamientos,#agenda,#formacion,#certificacion,#investigacion,#publicaciones{scroll-margin-top:136px}
+}
+@media(prefers-reduced-motion:reduce){
+ .gallery-image-button img,a.concern-item{transition:none}
+}
