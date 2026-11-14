@@ -43,6 +43,11 @@ function route(){
   const path=fragment.split('#')[0].replace(/\/$/,'')||'/';
   return ['/','/monterrey','/playa-del-carmen','/el-doctor','/aviso-de-privacidad'].includes(path)?path:'/404';
 }
+function prefersReducedMotion(){return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches===true;}
+function scrollToSection(id,animate=true){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:animate&&!prefersReducedMotion()?'smooth':'auto',block:'start'});
+}
 function go(path){
   const newHash='#'+path;
   if(location.hash!==newHash)location.hash=newHash;
@@ -187,20 +192,20 @@ function bind(){
       e.preventDefault();
       const [path,section]=dest.slice(1).split('#');
       go(path);
-      if(section)setTimeout(()=>document.getElementById(section)?.scrollIntoView({behavior:'smooth',block:'start'}),60);
+      if(section)setTimeout(()=>scrollToSection(section),60);
       return;
     }
     // Anchors within the city pages (rutas, tratamientos, agenda, etc.).
     if(dest.startsWith('#') && dest.length>1){
       e.preventDefault();
-      document.getElementById(dest.slice(1))?.scrollIntoView({behavior:'smooth'});
+      scrollToSection(dest.slice(1));
     }
   }));
   document.querySelectorAll('a[href^="#"]:not([data-link])').forEach(a=>a.addEventListener('click',e=>{
     const id=a.getAttribute('href').slice(1);
     if(!id)return;
     e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+    scrollToSection(id);
   }));
   const mobileToggle=document.getElementById('mobile-toggle');
   const mobileNav=document.getElementById('navlinks');
@@ -248,7 +253,7 @@ function bind(){
   },{signal:navigationEvents.signal});
   document.getElementById('location-picker')?.addEventListener('change',e=>{if(validSede(e.target.value)){saveSede(e.target.value);go('/'+e.target.value)}});
   document.getElementById('back-to-top')?.addEventListener('click',()=>{
-    window.scrollTo({top:0,behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'instant':'smooth'});
+    window.scrollTo({top:0,behavior:prefersReducedMotion()?'auto':'smooth'});
   });
   const thumbs=[...document.querySelectorAll('.playa-photo-grid figure img')];
   const dialog=document.getElementById('photo-dialog');
@@ -292,13 +297,13 @@ function bind(){
   }
 
 }
-function render(){active=route();if(validSede(active.slice(1)))saveSede(active.slice(1));let content=active==='/'?home():active==='/monterrey'?cityPage('monterrey'):active==='/playa-del-carmen'?cityPage('playa-del-carmen'):active==='/el-doctor'?doctorPage():active==='/aviso-de-privacidad'?privacy():`<main class="container legal"><h1>Página no encontrada</h1>${link('/','Volver al inicio','btn')}</main>`;document.getElementById('app').innerHTML=header(active)+content+foot()+floatingWhatsapp(active)+(validSede(active.slice(1))?photoDialog():'');const main=document.querySelector('main');if(main){main.id='main-content';main.tabIndex=-1;}document.title=active==='/'?'Dermatólogo en Monterrey y Playa del Carmen | Dermassad':active==='/monterrey'?'Dermatólogo en Monterrey | Dermassad':active==='/playa-del-carmen'?'Dermatólogo en Playa del Carmen | Dermassad':active==='/el-doctor'?'Dr. Carlos Javier Assad Morell | Dermassad':'Dermassad · '+active.slice(1).replaceAll('-',' ');const md=document.querySelector('meta[name=description]');if(md)md.content=active==='/'?'Dermatología en Monterrey y Playa del Carmen. Conoce motivos de consulta, tratamientos y formas de solicitar valoración en Dermassad.':`Conoce las opciones de atención dermatológica de Dermassad en ${active==='/monterrey'?'Monterrey':active==='/playa-del-carmen'?'Playa del Carmen':'México'}.`;const status=document.getElementById('route-status');if(status)status.textContent=document.title;bind()}
+function render(){active=route();if(validSede(active.slice(1)))saveSede(active.slice(1));let content=active==='/'?home():active==='/monterrey'?cityPage('monterrey'):active==='/playa-del-carmen'?cityPage('playa-del-carmen'):active==='/el-doctor'?doctorPage():active==='/aviso-de-privacidad'?privacy():`<main class="container legal"><h1>Página no encontrada</h1>${link('/','Volver al inicio','btn')}</main>`;document.getElementById('app').innerHTML=header(active)+content+foot()+floatingWhatsapp(active)+(validSede(active.slice(1))?photoDialog():'');const main=document.querySelector('main');if(main){main.id='main-content';main.tabIndex=-1;}document.title=active==='/'?'Dermatólogo en Monterrey y Playa del Carmen | Dermassad':active==='/monterrey'?'Dermatólogo en Monterrey | Dermassad':active==='/playa-del-carmen'?'Dermatólogo en Playa del Carmen | Dermassad':active==='/el-doctor'?'Dr. Carlos Javier Assad Morell | Dermassad':'Dermassad · '+active.slice(1).replaceAll('-',' ');const md=document.querySelector('meta[name=description]');if(md){const descriptions={'/':'Clínica Dermassad: atención dermatológica en Monterrey y Playa del Carmen. Conoce al especialista, las sedes y los medios de contacto.','/monterrey':'Dermatología en San Pedro Garza García, Nuevo León. Conoce nuestra sede, instalaciones y tratamientos; consulta disponibilidad por WhatsApp.','/playa-del-carmen':'Dermatología en Playa del Carmen, Quintana Roo. Conoce nuestras instalaciones, tratamientos y atención por WhatsApp.','/el-doctor':'Dr. Carlos Javier Assad Morell: formación en la UANL, recertificación en Dermatología en 2024, investigación y publicaciones.','/aviso-de-privacidad':'Información de privacidad y contacto de Clínica Dermassad.'};md.content=descriptions[active]||'Clínica Dermassad · Atención dermatológica.';}const status=document.getElementById('route-status');if(status)status.textContent=document.title;bind()}
 window.addEventListener('hashchange',()=>{
   render();
   const section=location.hash.slice(1).split('#')[1];
-  if(section)setTimeout(()=>document.getElementById(section)?.scrollIntoView(),30);
+  if(section)setTimeout(()=>scrollToSection(section,false),30);
   else window.scrollTo(0,0);
 });
 render();
 const initialSection=location.hash.slice(1).split('#')[1];
-if(initialSection)setTimeout(()=>document.getElementById(initialSection)?.scrollIntoView(),100);
+if(initialSection)setTimeout(()=>scrollToSection(initialSection,false),100);
