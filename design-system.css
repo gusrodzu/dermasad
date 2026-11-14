@@ -524,3 +524,35 @@ a.concern-item:hover h3{color:var(--ui-primary)}
 @media(prefers-reduced-motion:reduce){
   .nav-link,.branch-jump-links a,.doctor-jump-links a{transition:none}
 }
+
+
+/* UI Bundle 05 · microinteracciones, foco y estabilidad visual */
+:root{--ui-transition:180ms ease;--ui-focus-ring:3px solid #07569F}
+a,button,select,summary{-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible{
+  outline:var(--ui-focus-ring);outline-offset:3px
+}
+.nav-link,.back-to-top,.service-request,.wa-contact-link{
+  transition:color var(--ui-transition),background-color var(--ui-transition),border-color var(--ui-transition),box-shadow var(--ui-transition)
+}
+.nav-mobile-city:focus-visible,.nav-mobile-cta:focus-visible{outline-offset:3px}
+.location-showcase .location-tile:focus-visible,.concern-item:focus-visible{
+  outline:3px solid var(--ui-focus);outline-offset:4px
+}
+.nav-mobile-city.is-active{border-color:#07569F}
+.playa-photo-grid figure{contain:layout}
+.playa-photo-grid .gallery-image-button{isolation:isolate}
+.playa-photo-grid .gallery-image-button:focus-visible{outline:4px solid #07569F;outline-offset:-4px}
+.card.service-card .pricing{min-height:2.3em}
+.wa-choose-panel a{min-height:44px;display:flex;align-items:center}
+.foot .back-to-top:focus-visible{outline-color:#fff}
+button,summary{font-family:inherit}
+@media(hover:none){
+ .location-showcase .location-tile:hover,.card:hover,
+ a.concern-item:hover,.gallery-image-button:hover img{transform:none}
+ .wa-float-button:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .nav-link,.back-to-top,.service-request,.wa-contact-link{transition:none!important}
+ .gallery-image-button:hover img{transform:none!important}
+}
