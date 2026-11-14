@@ -71,4 +71,25 @@ assert.ok(!views.monterrey.includes('Referencia desde'), 'No publicar precios or
 assert.ok(views.monterrey.includes('Precio y disponibilidad a confirmar con la sede'), 'Mensaje de precio claro');
 assert.ok(views.playa.includes('Consultar por WhatsApp'), 'Contacto directo en hero');
 
+
+// UI Bundle 05: estabilidad de layout y carga progresiva
+assert.ok(html.includes('name="robots" content="noindex, nofollow"'),'El staging debe impedir su indexación');
+assert.ok(html.includes('styles.css?v=20261113-b05'),'CSS versionado para evitar caché obsoleta');
+assert.ok(html.includes('design-system.css?v=20261113-b05'),'Capa visual versionada');
+assert.ok(html.includes('script.js?v=20261113-b05'),'JavaScript versionado');
+assert.ok(html.includes('fonts.googleapis.com/css2?family='),'Carga de fuentes iniciada en HTML');
+const oldStyles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
+assert.ok(!oldStyles.trimStart().startsWith('@import'),'No bloquear CSS con @import de fuentes');
+for(const [viewName,markup] of Object.entries(views)){
+  const imgs=[...markup.matchAll(/<img\\b[^>]*src="\\.\\/assets\\/[^"]+"[^>]*>/g)];
+  for(const [imgMarkup] of imgs){
+    assert.ok(/\\bwidth="\\d+"/.test(imgMarkup),viewName+': imagen sin ancho original');
+    assert.ok(/\\bheight="\\d+"/.test(imgMarkup),viewName+': imagen sin alto original');
+    assert.ok(/\\bloading="(lazy|eager)"/.test(imgMarkup),viewName+': imagen sin loading');
+    assert.ok(/\\bdecoding="async"/.test(imgMarkup),viewName+': imagen sin decoding async');
+  }
+}
+assert.ok(source.includes('prefersReducedMotion'),'Desplazamiento accesible y motion-safe');
+assert.ok(css.includes('@media(hover:none)'),'Evitar hover persistente en dispositivos táctiles');
+
 console.log('✓ Dermassad smoke tests: 5 vistas, enlaces, assets, WhatsApp, modal y staging');
