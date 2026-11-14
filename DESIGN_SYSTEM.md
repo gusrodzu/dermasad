@@ -91,3 +91,20 @@ El recorrido principal de cualquier paciente es: **conocer al especialista → e
 - El smoke test abarca rutas, imágenes, WhatsApp, diálogo fotográfico, estilos cargados, contenido y breakpoints.
 - QA visual con capturas reales a 320/390/768/1024/1440 px: pendiente, una vez desplegado el commit en HostGator.
 - No se ha activado ningún despliegue automático ni se ha modificado el directorio raíz de producción.
+
+
+## UI Bundle 05 — rendimiento y acabado visual (13 de noviembre de 2026)
+
+- **Carga progresiva:** todos los recursos fotográficos en el marcado de las páginas cuentan con dimensiones reales `width` y `height`; las imágenes fuera de la primera pantalla usan `loading="lazy"`, y los retratos/hero priorizan la carga. Se aplica `decoding="async"`.
+- **Fuentes:** Google Fonts se declara como `<link rel="stylesheet">` desde `index.html` con `preconnect`, evitando el `@import` inicial en `styles.css`.
+- **Estabilidad del diseño:** botones, tarjetas, detalles de galería y navegación tienen un estilo de foco consistente y ajustes para dispositivos táctiles.
+- **Movilidad y accesibilidad:** los enlaces a secciones respetan `prefers-reduced-motion` y usan el desplazamiento de encabezados fijos definido en CSS.
+- **SEO por página:** las descripciones de Inicio, Monterrey, Playa del Carmen, especialista y privacidad son contextuales.
+- **Caché:** `index.html` incluye una cadena de versión para hojas de estilo y script `20261113-b05`.
+- **Protección de staging:** `<meta name="robots" content="noindex, nofollow">` evita promover la versión de prueba a buscadores. **Obligatorio retirarlo antes de publicar en el dominio oficial**.
+- **QA:** el smoke test exige imágenes con dimensiones/atributos de carga y verifica fuentes, versionado y privacidad del staging.
+
+### Pendiente y fuera de alcance de este bundle
+- **Compresión binaria:** todavía no se han recomprimido los PNG/JPG originales ni convertido el logotipo a un recurso ligero. La mejora implementada es de estrategia de descarga, no reducción del tamaño físico de los archivos.
+- **Lighthouse real y revisión visual:** requiere el despliegue manual a HostGator y pruebas sobre el sitio actualizado; no dar por completadas métricas LCP, CLS, INP ni WCAG AA.
+- Mantener el despliegue en `public_html/dermasad-preview/`; no publicar en la raíz sin aprobación.
