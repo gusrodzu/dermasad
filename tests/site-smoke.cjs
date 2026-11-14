@@ -81,12 +81,12 @@ assert.ok(html.includes('fonts.googleapis.com/css2?family='),'Carga de fuentes i
 const oldStyles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
 assert.ok(!oldStyles.trimStart().startsWith('@import'),'No bloquear CSS con @import de fuentes');
 for(const [viewName,markup] of Object.entries(views)){
-  const imgs=[...markup.matchAll(/<img\\b[^>]*src="\\.\\/assets\\/[^"]+"[^>]*>/g)];
+  const imgs=[...markup.matchAll(/<img\b[^>]*src="\.\/assets\/[^"]+"[^>]*>/g)];
   for(const [imgMarkup] of imgs){
-    assert.ok(/\\bwidth="\\d+"/.test(imgMarkup),viewName+': imagen sin ancho original');
-    assert.ok(/\\bheight="\\d+"/.test(imgMarkup),viewName+': imagen sin alto original');
-    assert.ok(/\\bloading="(lazy|eager)"/.test(imgMarkup),viewName+': imagen sin loading');
-    assert.ok(/\\bdecoding="async"/.test(imgMarkup),viewName+': imagen sin decoding async');
+    assert.ok(/\bwidth="\d+"/.test(imgMarkup),viewName+': imagen sin ancho original');
+    assert.ok(/\bheight="\d+"/.test(imgMarkup),viewName+': imagen sin alto original');
+    assert.ok(/\bloading="(lazy|eager)"/.test(imgMarkup),viewName+': imagen sin loading');
+    assert.ok(/\bdecoding="async"/.test(imgMarkup),viewName+': imagen sin decoding async');
   }
 }
 assert.ok(source.includes('prefersReducedMotion'),'Desplazamiento accesible y motion-safe');
